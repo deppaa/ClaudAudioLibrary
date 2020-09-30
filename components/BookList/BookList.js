@@ -21,7 +21,7 @@ const BookList = () => {
 			const data = result.data._embedded.items
 
 			for (let i = 0; i < data.length; i++) {
-				const element = data[i].path.replace('disk:', '');
+				const element = data[i].path.replace('disk:', '')
 
 				const img = await getResources({
 					url: element,
@@ -30,8 +30,6 @@ const BookList = () => {
 
 				data[i].image = img.data[0].file
 			}
-
-			console.log(data)
 
 			updateData(data)
 		} catch (error) {
