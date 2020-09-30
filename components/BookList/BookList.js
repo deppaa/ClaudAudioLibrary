@@ -4,7 +4,6 @@ import {
 	SafeAreaView,
 	TouchableOpacity
 } from 'react-native'
-import { Toast } from "native-base";
 import ElementItem from '../ElementItem/ElementItem'
 import YandexDisk from '../Hoock/YandexDisk'
 
@@ -34,11 +33,6 @@ const BookList = () => {
 			updateData(data)
 		} catch (error) {
 			console.log(error)
-			Toast.show({
-				text: "Wrong password!",
-				buttonText: "lol",
-				type: "warning"
-			})
 		}
 	}, [])
 
