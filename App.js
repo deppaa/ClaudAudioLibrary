@@ -1,11 +1,12 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import PlayerScreens from './screens/PlayerScreens/PlayerScreens'
 import BookListScreens from './screens/BookListScreens/BookListScreens'
-
-const App = () => {
+import store from './components/Store/reducers'
+export default App = () => {
 	return (
-		<BookListScreens />
+		<Provider store={store}>
+			<BookListScreens />
+		</Provider>
 	);
 };
-
-export default App;
