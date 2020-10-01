@@ -16,11 +16,13 @@
     "native-base": "^2.13.12",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-indicators": "^0.17.0",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "2",
     "react-redux": "^7.2.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
