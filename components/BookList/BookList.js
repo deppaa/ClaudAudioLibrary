@@ -1,50 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
 	FlatList,
 	SafeAreaView,
-	TouchableOpacity
+	TouchableOpacity,
+	StyleSheet
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import ElementItem from '../ElementItem/ElementItem'
-import YandexDisk from '../Hoock/YandexDisk'
+import { loadBooksList } from '../Store/BookList/actions'
+import {
+	BarIndicator
+} from 'react-native-indicators';
+
 
 const BookList = () => {
-	const { getResources } = YandexDisk()
-	const [useData, updateData] = useState([])
+	const dispatch = useDispatch()
 
-	useEffect(async () => {
-		try {
-			const result = await getResources({
-				url: '/CloudAudioBookPayer',
-				fields: ['_embedded.items.name', '_embedded.items.path', '_embedded.items.custom_properties', '_embedded.items.resource_id']
-			})
-			const data = result.data._embedded.items
+	useEffect(() => {
+		dispatch(loadBooksList())
+	}, [dispatch])
 
-			for (let i = 0; i < data.length; i++) {
-				const element = data[i].path.replace('disk:', '')
-
-				const img = await getResources({
-					url: element,
-					media_type: 'image'
-				})
-
-				data[i].image = img.data[0].file
-			}
-
-			updateData(data)
-		} catch (error) {
-			console.log(error)
+	const bookListState = useSelector(({ BooksList }) => {
+		return {
+			data: BooksList.data,
+			preloader: BooksList.preloader
 		}
-	}, [])
+	})
 
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={styles.container}>
+			<BarIndicator color='#FFCE33' size={40} style={{ display: bookListState.preloader ? 'flex' : 'none' }} />
 			<FlatList
-				data={useData}
+				style={{ display: !bookListState.preloader ? 'flex' : 'none' }}
+				data={bookListState.data}
 				renderItem={({ item }) => <TouchableOpacity onPress={() => alert(item.name)}><ElementItem poster={item.image} text={item.name} progress={0} /></TouchableOpacity>}
 				keyExtractor={item => item.resource_id}
 			/>
 		</SafeAreaView>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
+})
 
 export default BookList
