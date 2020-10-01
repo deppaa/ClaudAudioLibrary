@@ -10,15 +10,7 @@ export const putData = (data) => {
 	}
 }
 
-export const showPreloader = (prop) => {
-	return {
-		type: PRELOADER_STATE,
-		payload: prop
-	}
-}
-
 export const loadBooksList = () => async (dispatch, getState) => {
-	dispatch(showPreloader(true))
 	try {
 		const result = await getResources({
 			url: '/CloudAudioBookPayer',
@@ -38,7 +30,6 @@ export const loadBooksList = () => async (dispatch, getState) => {
 		}
 
 		dispatch(putData(data))
-		dispatch(showPreloader(false))
 	} catch (error) {
 		console.log(error)
 	}
