@@ -10,9 +10,6 @@ export const BooksListReducer = (state = initialState, action) => {
 		case LOAD_BOOKS_LIST:
 			return { ...state, data: action.payload }
 
-		case PRELOADER_STATE:
-			return { ...state, preloader: action.payload }
-
 		default:
 			return state
 	}
