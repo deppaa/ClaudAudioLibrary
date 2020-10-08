@@ -6,25 +6,27 @@ import {
 } from 'react-native'
 import HeaderConst from '../../components/Header/Header'
 
-const SettingsScreens = () => {
+const SettingsScreens = ({ navigation }) => {
 	return (
 		<>
 			<HeaderConst
 				bg="#FFFFFF"
 				title="Настройки"
 				noLeft={false}
+				content="dark-content"
+				navigation={navigation}
 			/>
 			<View>
 				<Text>Настройки</Text>
 			</View>
 		</>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-});
+})
 
 export default SettingsScreens;

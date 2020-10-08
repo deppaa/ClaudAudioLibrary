@@ -13,7 +13,7 @@ import { BarIndicator } from 'react-native-indicators';
 
 const ScreenHeight = Dimensions.get("window").height;
 
-const BookList = () => {
+const BookList = ({ navigation }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ const BookList = () => {
 			<FlatList
 				style={styles.listData}
 				data={bookListState.data}
-				renderItem={({ item }) => <TouchableOpacity onPress={() => alert(item.name)}><ElementItem poster={item.image} text={item.name} progress={0} /></TouchableOpacity>}
+				renderItem={({ item }) => <TouchableOpacity onPress={() => navigation.navigate('Player')}><ElementItem poster={item.image} text={item.name} progress={0} /></TouchableOpacity>}
 				keyExtractor={item => item.resource_id}
 				ListEmptyComponent={preloader}
 			/>
