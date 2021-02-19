@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import ElementItem from '../ElementItem/ElementItem'
-import { loadBooksList } from '../Store/BookList/actions'
+import { loadBooksList, nextOffset } from '../Store/BookList/actions'
 import { BarIndicator } from 'react-native-indicators';
 
 const ScreenHeight = Dimensions.get("window").height;
@@ -16,8 +16,15 @@ const ScreenHeight = Dimensions.get("window").height;
 const BookList = ({ navigation }) => {
 	const dispatch = useDispatch()
 
+	const bookListState = useSelector(({ BooksList }) => {
+		return {
+			data: BooksList.data,
+			offset: BooksList.offset
+		}
+	})
+
 	useEffect(() => {
-		dispatch(loadBooksList())
+		dispatch(loadBooksList(bookListState.offset, 10))
 	}, [dispatch])
 
 	const preloader = () => {
@@ -25,12 +32,6 @@ const BookList = ({ navigation }) => {
 			<BarIndicator style={styles.preloader} color='#FFCE33' size={40} />
 		)
 	}
-
-	const bookListState = useSelector(({ BooksList }) => {
-		return {
-			data: BooksList.data,
-		}
-	})
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -40,6 +41,11 @@ const BookList = ({ navigation }) => {
 				renderItem={({ item }) => <TouchableOpacity onPress={() => navigation.navigate('Player')}><ElementItem poster={item.image} text={item.name} progress={0} /></TouchableOpacity>}
 				keyExtractor={item => item.resource_id}
 				ListEmptyComponent={preloader}
+				onEndReachedThreshold={0.5}
+				onEndReached={() => {
+					dispatch(nextOffset(10))
+					dispatch(loadBooksList(bookListState.offset, 10))
+				}}
 			/>
 		</SafeAreaView>
 	)

@@ -1,7 +1,14 @@
-import { LOAD_BOOKS_LIST, PRELOADER_STATE } from './types'
+import { LOAD_BOOKS_LIST, NEXT_OFFSET, PRELOADER_STATE } from './types'
 import YandexDisk from '../../Hoock/YandexDisk'
 
 const { getResources } = YandexDisk()
+
+export const nextOffset = (data) => {
+	return {
+		type: NEXT_OFFSET,
+		payload: data
+	}
+}
 
 export const putData = (data) => {
 	return {
@@ -10,11 +17,14 @@ export const putData = (data) => {
 	}
 }
 
-export const loadBooksList = () => async (dispatch, getState) => {
+export const loadBooksList = (offset, limit) => async (dispatch, getState) => {
 	try {
 		const result = await getResources({
 			url: '/CloudAudioBookPayer',
-			fields: ['_embedded.items.name', '_embedded.items.path', '_embedded.items.custom_properties', '_embedded.items.resource_id']
+			fields: ['_embedded.items.name', '_embedded.items.path', '_embedded.items.custom_properties', '_embedded.items.resource_id'],
+			sort: 'modified',
+			offset: offset,
+			limit: limit
 		})
 		const data = result.data._embedded.items
 
@@ -26,7 +36,11 @@ export const loadBooksList = () => async (dispatch, getState) => {
 				media_type: 'image'
 			})
 
-			data[i].image = img.data[0].file
+			if (img.data.length) {
+				data[i].image = img.data[0].file
+			} else {
+				data[i].image = false
+			}
 		}
 
 		dispatch(putData(data))
