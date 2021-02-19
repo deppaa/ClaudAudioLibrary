@@ -9,10 +9,26 @@ import {
 import CircleProgress from '../CircleProgress/CircleProgress'
 
 const ElementItem = ({ poster, text, progress }) => {
+	const colors = ['#f44336', '#8BC34A', '#9c27b0', '#673ab7', '#3f51b5', '#44a05c']
+
+	const getRandomInt = (max) => {
+		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	const ImageBg = () => {
+		if (poster) {
+			return <Image style={styles.img} source={{ uri: poster }} />
+		} else {
+			return <View style={[styles.img, { backgroundColor: colors[getRandomInt(6)] }]}>
+				<Text style={styles.iconFont}>{text[0]}</Text>
+			</View>
+		}
+	}
+
 	return (
 		<View style={styles.item}>
 			<View style={styles.item_wrapper}>
-				<Image style={styles.img} source={{ uri: poster }} />
+				<ImageBg />
 				<Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>{text}</Text>
 				<View style={styles.controls}>
 					<TouchableHighlight style={styles.play}>
@@ -36,6 +52,8 @@ const styles = StyleSheet.create({
 		width: 61,
 		height: 85,
 		borderRadius: 5,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	item_wrapper: {
 		flexDirection: 'row',
@@ -68,6 +86,12 @@ const styles = StyleSheet.create({
 		height: 32,
 		backgroundColor: '#FFCE33',
 		borderRadius: 25
+	},
+	iconFont: {
+		fontSize: 40,
+		fontWeight: '600',
+		color: '#fff',
+		textTransform: 'uppercase'
 	}
 });
 

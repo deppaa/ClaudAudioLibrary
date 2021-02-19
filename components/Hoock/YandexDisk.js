@@ -32,12 +32,14 @@ const YandexDisk = () => {
 		fields,
 		limit,
 		offset,
-		media_type
+		media_type,
+		sort
 	}) => {
 		let baseURL = `https://cloud-api.yandex.net:443/v1/disk/resources?path=${encodeURIComponent(url)}`;
 		fields != null ? baseURL += `&fields=${encodeURIComponent(fields)}` : ''
 		limit != null ? baseURL += `&limit=${limit}` : ''
 		offset != null ? baseURL += `&offset=${offset}` : ''
+		sort != null ? baseURL += `&sort=${sort}` : ''
 
 		const result = await getApi(baseURL, token)
 		let data = result.data;
