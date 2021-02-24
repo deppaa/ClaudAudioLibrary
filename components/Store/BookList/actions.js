@@ -1,4 +1,4 @@
-import { LOAD_BOOKS_LIST, NEXT_OFFSET, PRELOADER_STATE } from './types'
+import { LOAD_BOOKS_LIST, NEXT_OFFSET, PRELOADER_STATE, IS_LOAD, IS_END } from './types'
 import YandexDisk from '../../Hoock/YandexDisk'
 
 const { getResources } = YandexDisk()
@@ -13,6 +13,20 @@ export const nextOffset = (data) => {
 export const putData = (data) => {
 	return {
 		type: LOAD_BOOKS_LIST,
+		payload: data
+	}
+}
+
+export const isLoad = (data) => {
+	return {
+		type: IS_LOAD,
+		payload: data
+	}
+}
+
+export const isEnd = (data) => {
+	return {
+		type: IS_END,
 		payload: data
 	}
 }
@@ -42,7 +56,10 @@ export const loadBooksList = (offset, limit) => async (dispatch, getState) => {
 				data[i].image = false
 			}
 		}
-
+		if (data.length == 0) {
+			dispatch(isEnd(true))
+		}
+		dispatch(isLoad(false))
 		dispatch(putData(data))
 	} catch (error) {
 		console.log(error)
