@@ -13,6 +13,7 @@ const SettingsScreens = ({ navigation }) => {
 				bg="#FFFFFF"
 				title="Настройки"
 				noLeft={false}
+				noRight={true}
 				content="dark-content"
 				navigation={navigation}
 			/>

@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const HeaderConst = ({ bg, title, noLeft = false, content = "light-content", navigation }) => {
-	const hide = noLeft ? "none" : "flex"
+const HeaderConst = ({ bg, title, noLeft = false, noRight = false, content = "light-content", navigation }) => {
+	const hideLeft = noLeft ? "none" : "flex"
+	const hideRight = noRight ? "none" : "flex"
 
 	const styles = StyleSheet.create({
 		container: {
@@ -20,14 +21,15 @@ const HeaderConst = ({ bg, title, noLeft = false, content = "light-content", nav
 			height: 56,
 			width: 56,
 			alignItems: "center",
-			justifyContent: "center"
+			justifyContent: "center",
+			display: hideRight
 		},
 		buttonLeft: {
 			height: 56,
 			width: 56,
 			alignItems: "center",
 			justifyContent: "center",
-			display: hide
+			display: hideLeft
 		},
 		wrapperRight: {
 			flex: 1,
